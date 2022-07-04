@@ -1,0 +1,71 @@
+version: "3"
+services:
+    ifdd-services:
+        build:
+            context: .
+            dockerfile: .docker/Dockerfile
+        image: ifdd-services
+        container_name: ifdd-app
+        ports:
+            - '${APP_PORT:-80}:9000'
+            - '${APP_FRONTEND_PORT:-80}:9001'
+        volumes:
+            - 'ifdd-app:/var/www/html'
+        networks:
+            - ifdd
+        depends_on:
+            - ifdd-services-pgsql
+            - ifdd-services-meilisearch
+
+    ifdd-services-pgsql:
+        restart: always
+        image: 'postgres:13'
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:5432'
+        container_name: ifdd-services-pgsql
+        environment:
+            PGPASSWORD: '${PG_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        volumes:
+            - 'db-pgsql:/var/lib/postgresql/data'
+        networks:
+            - ifdd
+        healthcheck:
+            test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
+            retries: 3
+            timeout: 5s
+
+    ifdd-services-meilisearch:
+        container_name: ifdd-services-meilisearch
+        image: getmeili/meilisearch:v0.27.2
+        environment:
+            - http_proxy
+            - https_proxy
+            - MEILI_NO_ANALYTICS=${MEILI_NO_ANALYTICS:-true}
+            - MEILI_ENV=${MEILI_ENV:-development}
+            - MEILI_LOG_LEVEL
+            - MEILI_DB_PATH=${MEILI_DB_PATH:-/data.ms}
+        ports:
+            - ${MEILI_PORT:-7700}:7700
+        networks:
+            - ifdd
+        volumes:
+            - 'ifdd-meilisearch:/data.ms'
+        restart: unless-stopped
+        healthcheck:
+          test: ["CMD", "wget", "--no-verbose", "--spider",  "http://ifdd-services-meilisearch:7700/health"]
+          retries: 3
+          timeout: 5s
+
+networks:
+    ifdd:
+        driver: bridge
+volumes:
+    db-pgsql:
+        driver: local
+    ifdd-app:
+        driver: local
+    ifdd-meilisearch:
+        driver: local
