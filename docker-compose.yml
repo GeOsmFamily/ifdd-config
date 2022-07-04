@@ -1,10 +1,10 @@
 version: "3"
 services:
-    ifdd-services:
+    ifdd-app:
         build:
             context: .
             dockerfile: .docker/Dockerfile
-        image: ifdd-services
+        image: ifdd-app
         container_name: ifdd-app
         ports:
             - '${APP_PORT:-80}:9000'
@@ -14,15 +14,15 @@ services:
         networks:
             - ifdd
         depends_on:
-            - ifdd-services-pgsql
-            - ifdd-services-meilisearch
+            - ifdd-app-pgsql
+            - ifdd-app-meilisearch
 
-    ifdd-services-pgsql:
+    ifdd-app-pgsql:
         restart: always
         image: 'postgres:13'
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
-        container_name: ifdd-services-pgsql
+        container_name: ifdd-app-pgsql
         environment:
             PGPASSWORD: '${PG_PASSWORD:-secret}'
             POSTGRES_DB: '${DB_DATABASE}'
@@ -37,8 +37,8 @@ services:
             retries: 3
             timeout: 5s
 
-    ifdd-services-meilisearch:
-        container_name: ifdd-services-meilisearch
+    ifdd-app-meilisearch:
+        container_name: ifdd-app-meilisearch
         image: getmeili/meilisearch:v0.27.2
         environment:
             - http_proxy
@@ -55,7 +55,7 @@ services:
             - 'ifdd-meilisearch:/data.ms'
         restart: unless-stopped
         healthcheck:
-          test: ["CMD", "wget", "--no-verbose", "--spider",  "http://ifdd-services-meilisearch:7700/health"]
+          test: ["CMD", "wget", "--no-verbose", "--spider",  "http://ifdd-app-meilisearch:7700/health"]
           retries: 3
           timeout: 5s
 
