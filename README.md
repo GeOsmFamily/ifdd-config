@@ -5,6 +5,7 @@
 ```sh
 $ git clone https://github.com/GeOsmFamily/ifdd-config.git
 $ cd ifdd-config
+$ nano .env
 ```
 
 - edit & add infos in .env
