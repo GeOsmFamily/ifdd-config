@@ -65,7 +65,7 @@ $ php artisan scribe:generate
 $ php artisan scout:import "App\Models\Osc"
 
 $ cd /var/www/html/ifdd-frontend
-$ cd /src/environments
+$ cd src/environments
 ```
 
 - edit & add apiRoot & apiKey infos in environment.prod.ts
