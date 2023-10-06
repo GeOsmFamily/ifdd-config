@@ -29,11 +29,13 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install exif \
     && docker-php-ext-install zip \
+    && docker-php-ext-install gmp \
+    && docker-php-ext-install intl \
     && docker-php-source delete
 
 RUN apt-get install -y apache2
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
