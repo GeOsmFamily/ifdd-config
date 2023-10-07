@@ -7,20 +7,18 @@ cd ifdd-services
 cp .env.example .env
 
 # Mettre à jour les valeurs dans le fichier .env
-sed -i 's/DB_DATABASE=.*/DB_DATABASE=nom_de_la_base_de_donnees/' .env
-sed -i 's/DB_USERNAME=.*/DB_USERNAME=nom_d_utilisateur_de_la_base_de_donnees/' .env
-sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=mot_de_passe_de_la_base_de_donnees/' .env
+sed -i 's/DB_DATABASE=.*/DB_DATABASE=ifdd/' .env
+sed -i 's/DB_USERNAME=.*/DB_USERNAME=postgres/' .env
+sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=postgres/' .env
 sed -i 's/MAIL_MAILER=.*/MAIL_MAILER=smtp/' .env
-sed -i 's/MAIL_HOST=.*/MAIL_HOST=votre_hote/' .env
-sed -i 's/MAIL_PORT=.*/MAIL_PORT=votre_port/' .env
-sed -i 's/MAIL_USERNAME=.*/MAIL_USERNAME=votre_nom_d_utilisateur/' .env
-sed -i 's/MAIL_PASSWORD=.*/MAIL_PASSWORD=votre_mot_de_passe/' .env
+sed -i 's/MAIL_HOST=.*/MAIL_HOST=smtp.mailgun.org/' .env
+sed -i 's/MAIL_PORT=.*/MAIL_PORT=25/' .env
+sed -i 's/MAIL_USERNAME=.*/MAIL_USERNAME=app@mail.position.cm/' .env
+sed -i 's/MAIL_PASSWORD=.*/MAIL_PASSWORD=6753ec0bdc3575c06cf46ce0dc5bd806-adf6de59-3f205f46/' .env
 sed -i 's/MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=TLS/' .env
 sed -i 's/MAIL_FROM_ADDRESS=.*/MAIL_FROM_ADDRESS=infos@ifdd.com/' .env
 sed -i 's/MAIL_FROM_NAME=.*/MAIL_FROM_NAME=IFDD/' .env
-sed -i 's/APP_FRONTEND=.*/APP_FRONTEND=url_vers_le_frontend/' .env
-sed -i 's/MEILISEARCH_HOST=.*/MEILISEARCH_HOST=host/' .env
-sed -i 's/ANALYTICS_PROPERTY_ID=.*/ANALYTICS_PROPERTY_ID=host/' .env
+sed -i 's/ANALYTICS_PROPERTY_ID=.*/ANALYTICS_PROPERTY_ID=321877049/' .env
 
 # Générer la clé d'application
 php artisan key:generate
@@ -59,7 +57,7 @@ cd /var/www/html/ifdd-frontend/src/environments
 echo "
 export const environment = {
   production: true,
-  apiRoot: 'votre_racine_api',
+  apiRoot: 'https://cartodd-api.francophonie.org/api',
   apiKey: '$API_KEY',
 };
 " > environment.prod.ts
