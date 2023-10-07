@@ -29,8 +29,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install exif \
     && docker-php-ext-install zip \
+    && apt install libgmp-dev -y \
     && docker-php-ext-install gmp \
     && docker-php-ext-install intl \
+    && docker-php-ext-install bcmath \
     && docker-php-source delete
 
 RUN apt-get install -y apache2
@@ -45,11 +47,19 @@ RUN git clone https://github.com/GeOsmFamily/ifdd-services.git ./ifdd-services
 RUN cd /var/www/html/ifdd-services && composer install
 
 RUN rm -rf /var/www/html/ifdd-frontend/ || true
-RUN git clone -b dev  https://github.com/GeOsmFamily/ifdd-frontend.git ./ifdd-frontend
+RUN git clone https://github.com/GeOsmFamily/ifdd-frontend.git ./ifdd-frontend
 RUN cd /var/www/html/ifdd-frontend && npm install
 
 COPY .docker/vhosts/service.conf /etc/apache2/sites-available/service.conf
 COPY .docker/vhosts/frontend.conf /etc/apache2/sites-available/frontend.conf
+COPY .docker/.htaccess /var/www/html/ifdd-frontend
+RUN  mkdir -p /var/www/html/ifdd-services/storage/app/analytics
+COPY .docker/service-account-credentials.json /var/www/html/ifdd-services/storage/app/analytics/service-account-credentials.json
+COPY .docker/install.sh /var/www/html/install.sh
+RUN  chmod +x /var/www/html/install.sh 
+COPY .docker/update.sh /var/www/html/update.sh
+RUN  chmod +x /var/www/html/update.sh
+
 
 RUN chown -R www-data:www-data /var/www/html/ifdd-services \
     && a2enmod rewrite

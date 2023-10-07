@@ -52,6 +52,8 @@ APP_FRONTEND=url_to_frontend
 
 MEILISEARCH_HOST=host
 
+ANALYTICS_PROPERTY_ID=
+
 ```
 
 ```
