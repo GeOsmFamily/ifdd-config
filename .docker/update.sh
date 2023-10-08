@@ -13,6 +13,7 @@ composer update
 php artisan migrate
 
 # installer les dépendances tailwindcss du backend
+npm i
 npx tailwindcss --input ./resources/css/filament/admin/theme.css --output ./public/css/filament/admin/theme.css --config ./resources/css/filament/admin/tailwind.config.js --minify
 
 # compiler les assets du backend
