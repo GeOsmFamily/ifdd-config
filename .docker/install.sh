@@ -1,12 +1,27 @@
 #!/bin/bash
 
-# Se déplacer dans le répertoire ifdd-services
+# 1. Se déplacer dans le répertoire ifdd-services
+echo "1. Se déplacer dans le répertoire ifdd-services"
 cd ifdd-services
 
-# Copier le fichier .env.example en .env
+# 2. Copier le fichier .env.example en .env
+echo "2. Copier le fichier .env.example en .env"
 cp .env.example .env
 
-# Mettre à jour les valeurs dans le fichier .env
+# 3. Récupérer les valeurs des variables du fichier initial .env
+echo "3. Récupérer les valeurs des variables du fichier initial .env"
+APP_FRONTEND=$(grep "^APP_FRONTEND=" ../.env | cut -d '=' -f 2-)
+APP_BACKEND=$(grep "^APP_BACKEND=" ../.env | cut -d '=' -f 2-)
+APP_URL=$(grep "^APP_URL=" ../.env | cut -d '=' -f 2-)
+ASSET_URL=$(grep "^ASSET_URL=" ../.env | cut -d '=' -f 2-)
+ANALYTICS_PROPERTY_ID=$(grep "^ANALYTICS_PROPERTY_ID=" ../.env | cut -d '=' -f 2-)
+
+# 4. Mettre à jour les valeurs dans le fichier .env
+echo "4. Mettre à jour les valeurs dans le fichier .env"
+sed -i "s/APP_FRONTEND=.*/APP_FRONTEND=$APP_FRONTEND/" .env
+sed -i "s/APP_BACKEND=.*/APP_BACKEND=$APP_BACKEND/" .env
+sed -i "s/APP_URL=.*/APP_URL=$APP_URL/" .env
+sed -i "s/ASSET_URL=.*/ASSET_URL=$ASSET_URL/" .env
 sed -i 's/DB_DATABASE=.*/DB_DATABASE=ifdd/' .env
 sed -i 's/DB_USERNAME=.*/DB_USERNAME=postgres/' .env
 sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=postgres/' .env
@@ -18,68 +33,87 @@ sed -i 's/MAIL_PASSWORD=.*/MAIL_PASSWORD=6753ec0bdc3575c06cf46ce0dc5bd806-adf6de
 sed -i 's/MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=TLS/' .env
 sed -i 's/MAIL_FROM_ADDRESS=.*/MAIL_FROM_ADDRESS=infos@ifdd.com/' .env
 sed -i 's/MAIL_FROM_NAME=.*/MAIL_FROM_NAME=IFDD/' .env
-sed -i 's/ANALYTICS_PROPERTY_ID=.*/ANALYTICS_PROPERTY_ID=321877049/' .env
+sed -i "s/ANALYTICS_PROPERTY_ID=.*/ANALYTICS_PROPERTY_ID=$ANALYTICS_PROPERTY_ID/" .env
 
-# Générer la clé d'application
+# 5. Générer la clé d'application
+echo "5. Générer la clé d'application"
 php artisan key:generate
 
-# Effectuer les migrations de la base de données
+# 6. Effectuer les migrations de la base de données
+echo "6. Effectuer les migrations de la base de données"
 php artisan migrate
 
-# Installer Passport
+# 7. Installer Passport
+echo "7. Installer Passport"
 php artisan passport:install
 
-# Effectuer le seeding de la base de données
+# 8. Effectuer le seeding de la base de données
+echo "8. Effectuer le seeding de la base de données"
 php artisan db:seed
 
-# Générer la clé API pour la démo
-API_KEY=$(php artisan apikey:generate demo --no-ansi | awk '/Key:/{print $2}')
+# 9. Générer la clé API pour l'application
+echo "9. Générer la clé API pour l'application"
+API_KEY=$(php artisan apikey:generate ifdd --no-ansi | awk '/Key:/{print $2}')
 
-# Créer le lien symbolique pour le stockage
+# 10. Créer le lien symbolique pour le stockage
+echo "10. Créer le lien symbolique pour le stockage"
 php artisan storage:link
 
-# Générer la documentation API avec Scribe
+# 11. Générer la documentation API avec Scribe
+echo "11. Générer la documentation API avec Scribe"
 php artisan scribe:generate
 
-# Importer les données pour le modèle Osc dans Scout
+# 12. Importer les données pour le modèle Osc dans Scout
+echo "12. Importer les données pour le modèle Osc dans Scout"
 php artisan scout:import "App\Models\Osc"
 
-# installer les dépendances tailwindcss du backend
+# 13. Installer les dépendances Tailwind CSS du backend
+echo "13. Installer les dépendances Tailwind CSS du backend"
 npx tailwindcss --input ./resources/css/filament/admin/theme.css --output ./public/css/filament/admin/theme.css --config ./resources/css/filament/admin/tailwind.config.js --minify
 
-# compiler les assets du backend
+# 14. Compiler les assets du backend
+echo "14. Compiler les assets du backend"
 npm run prod
 
-# Se déplacer vers le répertoire du frontend
+# 15. Se déplacer vers le répertoire du frontend
+echo "15. Se déplacer vers le répertoire du frontend"
 cd /var/www/html/ifdd-frontend/src/environments
 
-# Éditer et ajouter les informations d'API dans environment.prod.ts
+# 16. Éditer et ajouter les informations d'API dans environment.prod.ts
+echo "16. Éditer et ajouter les informations d'API dans environment.prod.ts"
 echo "
 export const environment = {
   production: true,
-  apiRoot: 'https://cartodd-api.francophonie.org/api',
+  apiRoot: '$APP_BACKEND/api',
   apiKey: '$API_KEY',
 };
 " > environment.prod.ts
 
-# Construire l'application Angular
+# 17. Construire l'application Angular
+echo "17. Construire l'application Angular"
 npx ng build
 
-# Copier le fichier .htaccess dans le répertoire de distribution
+# 18. Copier le fichier .htaccess dans le répertoire de distribution
+echo "18. Copier le fichier .htaccess dans le répertoire de distribution"
 cp /var/www/ifdd-frontend/.htaccess /var/www/ifdd-frontend/dist/ifdd/.htaccess
 
-# Se déplacer vers le répertoire sites-available d'Apache
+# 19. Se déplacer vers le répertoire sites-available d'Apache
+echo "19. Se déplacer vers le répertoire sites-available d'Apache"
 cd /etc/apache2/sites-available/
 
-# Désactiver la configuration par défaut et activer les configurations de service et de frontend
+# 20. Désactiver la configuration par défaut et activer les configurations de service et de frontend
+echo "20. Désactiver la configuration par défaut et activer les configurations de service et de frontend"
 a2dissite 000-default.conf
 a2ensite service.conf
 a2ensite frontend.conf
 
-# Recharger le service Apache
+# 21. Recharger le service Apache
+echo "21. Recharger le service Apache"
 service apache2 reload
 
-# Donner les permissions nécessaires sur le répertoire ifdd-services
+# 22. Donner les permissions nécessaires sur le répertoire ifdd-services
+echo "22. Donner les permissions nécessaires sur le répertoire ifdd-services"
 chmod -R 777 /var/www/html/ifdd-services
 
-echo "Installation terminée avec succès!"
+# 23. Afficher un message de fin
+echo "23. Installation terminée avec succès!"

@@ -19,7 +19,7 @@ services:
 
     ifdd-app-pgsql:
         restart: always
-        image: 'postgres:13'
+        image: 'postgres:15'
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
         container_name: ifdd-app-pgsql
@@ -39,7 +39,7 @@ services:
 
     ifdd-app-meilisearch:
         container_name: ifdd-app-meilisearch
-        image: getmeili/meilisearch:v0.27.2
+        image: getmeili/meilisearch:v1.3
         environment:
             - http_proxy
             - https_proxy
