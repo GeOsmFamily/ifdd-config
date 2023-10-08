@@ -25,6 +25,7 @@ MEILI_PORT=
 ```
 
 ```
+$ cp .env .docker/.env
 $ docker-compose up -d
 $ docker exec -it ifdd-app bash
 $ cd ifdd-services
