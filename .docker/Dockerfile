@@ -59,7 +59,7 @@ COPY .docker/install.sh /var/www/html/install.sh
 RUN  chmod +x /var/www/html/install.sh 
 COPY .docker/update.sh /var/www/html/update.sh
 RUN  chmod +x /var/www/html/update.sh
-COPY ../.env /var/www/html/.env
+COPY .docker/.env /var/www/html/.env
 
 
 RUN chown -R www-data:www-data /var/www/html/ifdd-services \
