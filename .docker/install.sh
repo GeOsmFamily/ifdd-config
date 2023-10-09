@@ -18,22 +18,22 @@ ANALYTICS_PROPERTY_ID=$(grep "^ANALYTICS_PROPERTY_ID=" ../.env | cut -d '=' -f 2
 
 # 4. Mettre à jour les valeurs dans le fichier .env
 echo "4. Mettre à jour les valeurs dans le fichier .env"
-sed -i "s/APP_FRONTEND=.*/APP_FRONTEND=$APP_FRONTEND/" .env
-sed -i "s/APP_BACKEND=.*/APP_BACKEND=$APP_BACKEND/" .env
-sed -i "s/APP_URL=.*/APP_URL=$APP_URL/" .env
-sed -i "s/ASSET_URL=.*/ASSET_URL=$ASSET_URL/" .env
-sed -i "s/DB_DATABASE=.*/DB_DATABASE=ifdd/" .env
-sed -i "s/DB_USERNAME=.*/DB_USERNAME=postgres/" .env
-sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=postgres/" .env
-sed -i "s/MAIL_MAILER=.*/MAIL_MAILER=smtp/" .env
-sed -i "s/MAIL_HOST=.*/MAIL_HOST=smtp.mailgun.org/" .env
-sed -i "s/MAIL_PORT=.*/MAIL_PORT=25/" .env
-sed -i "s/MAIL_USERNAME=.*/MAIL_USERNAME=app@mail.position.cm/" .env
-sed -i "s/MAIL_PASSWORD=.*/MAIL_PASSWORD=6753ec0bdc3575c06cf46ce0dc5bd806-adf6de59-3f205f46/" .env
-sed -i "s/MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=TLS/" .env
-sed -i "s/MAIL_FROM_ADDRESS=.*/MAIL_FROM_ADDRESS=infos@ifdd.com/" .env
-sed -i "s/MAIL_FROM_NAME=.*/MAIL_FROM_NAME=IFDD/" .env
-sed -i "s/ANALYTICS_PROPERTY_ID=.*/ANALYTICS_PROPERTY_ID=$ANALYTICS_PROPERTY_ID/" .env
+sed -i "s/APP_FRONTEND\=.*/APP_FRONTEND=$APP_FRONTEND/" .env
+sed -i "s/APP_BACKEND\=.*/APP_BACKEND=$APP_BACKEND/" .env
+sed -i "s/APP_URL\=.*/APP_URL=$APP_URL/" .env
+sed -i "s/ASSET_URL\=.*/ASSET_URL=$ASSET_URL/" .env
+sed -i "s/DB_DATABASE\=.*/DB_DATABASE=ifdd/" .env
+sed -i "s/DB_USERNAME\=.*/DB_USERNAME=postgres/" .env
+sed -i "s/DB_PASSWORD\=.*/DB_PASSWORD=postgres/" .env
+sed -i "s/MAIL_MAILER\=.*/MAIL_MAILER=smtp/" .env
+sed -i "s/MAIL_HOST\=.*/MAIL_HOST=smtp.mailgun.org/" .env
+sed -i "s/MAIL_PORT\=.*/MAIL_PORT=25/" .env
+sed -i "s/MAIL_USERNAME\=.*/MAIL_USERNAME=app@mail.position.cm/" .env
+sed -i "s/MAIL_PASSWORD\=.*/MAIL_PASSWORD=6753ec0bdc3575c06cf46ce0dc5bd806-adf6de59-3f205f46/" .env
+sed -i "s/MAIL_ENCRYPTION\=.*/MAIL_ENCRYPTION=TLS/" .env
+sed -i "s/MAIL_FROM_ADDRESS\=.*/MAIL_FROM_ADDRESS=infos@ifdd.com/" .env
+sed -i "s/MAIL_FROM_NAME\=.*/MAIL_FROM_NAME=IFDD/" .env
+sed -i "s/ANALYTICS_PROPERTY_ID\=.*/ANALYTICS_PROPERTY_ID=$ANALYTICS_PROPERTY_ID/" .env
 
 # 5. Générer la clé d'application
 echo "5. Générer la clé d'application"
@@ -41,7 +41,7 @@ php artisan key:generate
 
 # 6. Effectuer les migrations de la base de données
 echo "6. Effectuer les migrations de la base de données"
-php artisan migrate
+php artisan migrate:fresh
 
 # 7. Installer Passport
 echo "7. Installer Passport"
