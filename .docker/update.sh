@@ -30,7 +30,7 @@ npm install
 npx ng build
 
 # Copier le fichier .htaccess dans le répertoire de distribution du frontend
-cp .htaccess dist/ifdd/.htaccess
+cp /var/www/html/ifdd-frontend/htaccess.txt /var/www/html/ifdd-frontend/dist/ifdd/.htaccess
 
 # Recharger le service Apache pour prendre en compte les changements
 service apache2 reload
