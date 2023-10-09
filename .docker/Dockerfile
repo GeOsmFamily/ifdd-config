@@ -21,6 +21,8 @@ RUN apt-get update && apt-get install -y \
     libjpeg62-turbo-dev \
     libpng-dev \
     libpq-dev \
+    nodejs \
+    npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-configure gd \
@@ -37,10 +39,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get install -y apache2
 
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 
 RUN rm -rf /var/www/html/ifdd-services/ || true
 RUN git clone https://github.com/GeOsmFamily/ifdd-services.git ./ifdd-services
@@ -52,7 +51,7 @@ RUN cd /var/www/html/ifdd-frontend && npm install
 
 COPY .docker/vhosts/service.conf /etc/apache2/sites-available/service.conf
 COPY .docker/vhosts/frontend.conf /etc/apache2/sites-available/frontend.conf
-COPY .docker/.htaccess /var/www/html/ifdd-frontend
+COPY .docker/.htaccess /var/www/html/ifdd-frontend/.htaccess
 RUN  mkdir -p /var/www/html/ifdd-services/storage/app/analytics
 COPY .docker/service-account-credentials.json /var/www/html/ifdd-services/storage/app/analytics/service-account-credentials.json
 COPY .docker/install.sh /var/www/html/install.sh
@@ -60,7 +59,6 @@ RUN  chmod +x /var/www/html/install.sh
 COPY .docker/update.sh /var/www/html/update.sh
 RUN  chmod +x /var/www/html/update.sh
 COPY .docker/.env /var/www/html/.env
-
 
 RUN chown -R www-data:www-data /var/www/html/ifdd-services \
     && a2enmod rewrite
