@@ -91,6 +91,14 @@ export const environment = {
 };
 " > environment.prod.ts
 
+echo "
+export const environment = {
+  production: true,
+  apiRoot: '$APP_BACKEND/api',
+  apiKey: '$API_KEY',
+};
+" > environment.ts
+
 # 17. Construire l'application Angular
 echo "17. Construire l'application Angular"
 npx ng build
