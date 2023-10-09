@@ -105,7 +105,7 @@ npx ng build
 
 # 18. Copier le fichier .htaccess dans le répertoire de distribution
 echo "18. Copier le fichier .htaccess dans le répertoire de distribution"
-cp /var/www/ifdd-frontend/.htaccess /var/www/ifdd-frontend/dist/ifdd/.htaccess
+cp /var/www/ifdd-frontend/htaccess.txt /var/www/ifdd-frontend/dist/ifdd/.htaccess
 
 # 19. Se déplacer vers le répertoire sites-available d'Apache
 echo "19. Se déplacer vers le répertoire sites-available d'Apache"

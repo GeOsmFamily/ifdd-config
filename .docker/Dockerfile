@@ -51,7 +51,7 @@ RUN cd /var/www/html/ifdd-frontend && npm install
 
 COPY .docker/vhosts/service.conf /etc/apache2/sites-available/service.conf
 COPY .docker/vhosts/frontend.conf /etc/apache2/sites-available/frontend.conf
-COPY .docker/htaccess.txt /var/www/html/ifdd-frontend/.htaccess
+COPY .docker/htaccess.txt /var/www/html/ifdd-frontend/htaccess.txt
 RUN  mkdir -p /var/www/html/ifdd-services/storage/app/analytics
 COPY .docker/service-account-credentials.json /var/www/html/ifdd-services/storage/app/analytics/service-account-credentials.json
 COPY .docker/install.sh /var/www/html/install.sh
