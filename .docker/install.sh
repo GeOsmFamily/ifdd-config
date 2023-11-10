@@ -29,7 +29,6 @@ sed -i "s+url_backend+$APP_BACKEND+g" .env
 sed -i "s+database_name+$DB_DATABASE+g" .env
 sed -i "s+database_user+$DB_USERNAME+g" .env
 sed -i "s+database_password+$DB_PASSWORD+g" .env
-sed -i "s+MAIL_MAILER+smtp+g" .env
 sed -i "s+mail_host+smtp.mailgun.org+g" .env
 sed -i "s+mail_port+25+g" .env
 sed -i "s+mail_username+$MAIL_USERNAME+g" .env
@@ -37,7 +36,7 @@ sed -i "s+mail_password+$MAIL_PASSWORD+g" .env
 sed -i "s+mail_encryption+TLS+g" .env
 sed -i "s+mail_from_address+infos@ifdd.com+g" .env
 sed -i "s+mail_from_name+IFDD+g" .env
-sed -i "s+analytics_property_id+321877049+g" .env
+sed -i "s+analytics_property_id+$ANALYTICS_PROPERTY_ID+g" .env
 
 # 5. Générer la clé d'application
 echo "5. Générer la clé d'application"
