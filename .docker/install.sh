@@ -18,6 +18,9 @@ ANALYTICS_PROPERTY_ID=$(grep "^ANALYTICS_PROPERTY_ID=" ../.env | cut -d '=' -f 2
 DB_DATABASE=$(grep "^DB_DATABASE=" ../.env | cut -d '=' -f 2-)
 DB_USERNAME=$(grep "^DB_USERNAME=" ../.env | cut -d '=' -f 2-)
 DB_PASSWORD=$(grep "^DB_PASSWORD=" ../.env | cut -d '=' -f 2-)
+MAIL_USERNAME=$(grep "^MAIL_USERNAME=" ../.env | cut -d '=' -f 2-)
+MAIL_PASSWORD=$(grep "^MAIL_PASSWORD=" ../.env | cut -d '=' -f 2-)
+
 
 # 4. Mettre à jour les valeurs dans le fichier .env
 echo "4. Mettre à jour les valeurs dans le fichier .env"
@@ -29,8 +32,8 @@ sed -i "s+database_password+$DB_PASSWORD+g" .env
 sed -i "s+MAIL_MAILER+smtp+g" .env
 sed -i "s+mail_host+smtp.mailgun.org+g" .env
 sed -i "s+mail_port+25+g" .env
-sed -i "s+mail_username+app@mail.position.cm+g" .env
-sed -i "s+mail_password+6753ec0bdc3575c06cf46ce0dc5bd806-adf6de59-3f205f46+g" .env
+sed -i "s+mail_username+$MAIL_USERNAME+g" .env
+sed -i "s+mail_password+$MAIL_PASSWORD+g" .env
 sed -i "s+mail_encryption+TLS+g" .env
 sed -i "s+mail_from_address+infos@ifdd.com+g" .env
 sed -i "s+mail_from_name+IFDD+g" .env
