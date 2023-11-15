@@ -20,7 +20,7 @@ npx tailwindcss --input ./resources/css/filament/admin/theme.css --output ./publ
 npm run prod
 
 # Se déplacer dans le répertoire du projet frontend
-cd /var/www/ifdd-frontend
+cd /var/www/html/ifdd-frontend
 
 # Mettre à jour le code du frontend depuis le dépôt Git (assurez-vous que votre dépôt est configuré correctement)
 git pull origin master
