@@ -27,7 +27,7 @@ git pull origin master
 
 # Installer les dépendances du frontend et reconstruire l'application
 npm install
-npx ng build
+npx npx ng build --configuration production
 
 # Copier le fichier .htaccess dans le répertoire de distribution du frontend
 cp /var/www/html/ifdd-frontend/htaccess.txt /var/www/html/ifdd-frontend/dist/ifdd/.htaccess

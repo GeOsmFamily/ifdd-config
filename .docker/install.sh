@@ -103,7 +103,7 @@ export const environment = {
 
 # 17. Construire l'application Angular
 echo "17. Construire l'application Angular"
-npx ng build
+npx ng build --configuration production
 
 # 18. Copier le fichier .htaccess dans le répertoire de distribution
 echo "18. Copier le fichier .htaccess dans le répertoire de distribution"
