@@ -65,4 +65,7 @@ RUN  chmod +x /var/www/html/update.sh
 COPY .docker/.env /var/www/html/.env
 
 RUN chown -R www-data:www-data /var/www/html/ifdd-services \
-    && a2enmod rewrite
+    && a2enmod rewrite \
+    && a2dissite 000-default.conf \
+    && a2ensite service.conf \
+    && a2ensite frontend.conf
