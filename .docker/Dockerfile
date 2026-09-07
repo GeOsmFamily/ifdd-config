@@ -68,4 +68,6 @@ RUN chown -R www-data:www-data /var/www/html/ifdd-services \
     && a2enmod rewrite \
     && a2dissite 000-default.conf \
     && a2ensite service.conf \
-    && a2ensite frontend.conf
+    && a2ensite frontend.conf \
+    && git config --global --add safe.directory /var/www/html/ifdd-services \
+    && git config --global --add safe.directory /var/www/html/ifdd-frontend
