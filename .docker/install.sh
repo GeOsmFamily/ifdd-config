@@ -125,7 +125,8 @@ service apache2 reload
 
 # 22. Donner les permissions nécessaires sur le répertoire ifdd-services
 echo "22. Donner les permissions nécessaires sur le répertoire ifdd-services"
-chmod -R 777 /var/www/html/ifdd-services
+chown -R www-data:www-data /var/www/html/ifdd-services
+chmod -R 775 /var/www/html/ifdd-services/storage /var/www/html/ifdd-services/bootstrap/cache
 
 # 23. Afficher un message de fin
 echo "23. Installation terminée avec succès!"
