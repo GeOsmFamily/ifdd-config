@@ -24,10 +24,10 @@ services:
             - '${FORWARD_DB_PORT:-5432}:5432'
         container_name: ifdd-app-pgsql
         environment:
-            PGPASSWORD: '${PG_PASSWORD:-secret}'
+            PGPASSWORD: '${PG_PASSWORD:?PG_PASSWORD must be set in .env}'
             POSTGRES_DB: '${DB_DATABASE}'
             POSTGRES_USER: '${DB_USERNAME}'
-            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:?DB_PASSWORD must be set in .env}'
         volumes:
             - 'db-pgsql:/var/lib/postgresql/data'
         networks:

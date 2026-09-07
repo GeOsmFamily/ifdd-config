@@ -1,0 +1,7 @@
+.env
+.docker/.env
+.docker/*.env
+*.credentials.json
+service-account-credentials.json
+node_modules/
+.DS_Store
